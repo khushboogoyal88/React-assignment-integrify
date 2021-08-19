@@ -1,14 +1,19 @@
+import React, {Component, Fragment} from 'react';
+import './App.css';
+import Users from './components/users/Users'
 
-function App() {
+class App extends Component {
+  render(){
+
   return (
-    <div className="App">
-      <header className="App-header">
-       
-       
-      <h1>Hello World</h1>
-      </header>
-    </div>
-  );
+    <Fragment>
+      <div className='App'>
+        <div className='container'>
+          <Users />
+        </div>
+      </div>
+    </Fragment>
+  );};
 }
 
 export default App;

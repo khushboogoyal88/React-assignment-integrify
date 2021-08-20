@@ -1,19 +1,30 @@
 import React, {Component, Fragment} from 'react';
 import './App.css';
+import axios from 'axios';
 import Users from './components/users/Users'
 
 class App extends Component {
-  render(){
+  state={
+    users: [],
+    loading: false,
+  }
+  async componentDidMount(){
+    this.setState({loading: true});
+    const res = await axios.get('https://jsonplaceholder.typicode.com/users');
+    this.setState({users: res.data, loading: false});
+  }
 
-  return (
-    <Fragment>
-      <div className='App'>
-        <div className='container'>
-          <Users />
+  render() {
+    return (
+      <Fragment>
+        <div className='App'>
+          <div className='container'>
+            <Users users={this.state.users} loading={this.state.loading}/>
+          </div>
         </div>
-      </div>
-    </Fragment>
-  );};
+      </Fragment>
+    );
+  }
 }
 
 export default App;

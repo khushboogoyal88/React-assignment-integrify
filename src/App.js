@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './App.css';
 import axios from 'axios';
@@ -6,29 +6,28 @@ import Users from './components/users/Users'
 import Singleuser from './components/users/Singleuser'
 
 
-class App extends Component {
-  state={
-    users: [],
-    user: {},
-    loading: false,
-  }
+const App =() => {
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  // all users loads at the start
-  async componentDidMount(){
-    this.setState({loading: true});
+//  all users loads at the start
+  useEffect(async () => {
+    setLoading(true);
     const res = await axios.get('https://jsonplaceholder.typicode.com/users');
-    this.setState({users: res.data, loading: false});
-  }
+    setUsers(res.data);
+    setLoading(false);
+  }, [])
 
   // get single user
-   getUser = async (userId) =>{
-    this.setState({ loading: true });
+   const getUser = async (userId) =>{
+    setLoading(true);
     const res = await axios.get(`https://jsonplaceholder.typicode.com/users/${userId}`);
-    this.setState({ user: res.data, loading: false });
+    setUser(res.data);
+    console.log(res.data);
+    setLoading(false);
   }
 
-  render() {
-    const {users, loading, user} = this.state;
     return (
       <Router>
         <div className='App'>
@@ -50,7 +49,7 @@ class App extends Component {
                 exact
                 path='/users/:userId'
                 render={(props) => (
-                    <Singleuser {...props} getUser={this.getUser} user={user} loading={loading}/>
+                    <Singleuser {...props} getUser={getUser} user={user} loading={loading}/>
                 )}
               />
             </Switch>
@@ -58,7 +57,7 @@ class App extends Component {
         </div>
       </Router>
     );
-  }
+
 }
 
 export default App;

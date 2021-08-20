@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom'
 
-const UserItem = ({ user: { name, username, website } }) => {
+const UserItem = ({ user: {id, name, username, website } }) => {
  
   return (
     <div className='text-center card'>
@@ -22,7 +23,7 @@ const UserItem = ({ user: { name, username, website } }) => {
         http://{website}
       </a>
       <br />
-      <a className='btn btn-primary btn-sm my-1 uppercase'>More Details</a>
+      <Link to={`/users/${id}`} className='btn btn-primary btn-sm my-1 uppercase'>More Details</Link>
     </div>
   );
 };
